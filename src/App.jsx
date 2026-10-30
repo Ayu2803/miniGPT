@@ -40,7 +40,9 @@ function App() {
     if (!customText) setInput('')
 
     try {
-      const response = await fetch('http://localhost:5001/api/chat', {
+     const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5001').replace(/\/$/, '')
+    console.log('Calling:', `${API_URL}/api/chat`)
+    const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -49,12 +51,13 @@ function App() {
           message: textToSend,
         }),
       })
+    if (!response.ok) {
+      const errorText = await response.text()
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Something went wrong')
-      }
-
+      throw new Error(
+        errorText || `Server error: ${response.status} ${response.statusText}`
+      )
+    }
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
       let done = false
