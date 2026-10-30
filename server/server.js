@@ -96,7 +96,7 @@ app.post('/api/chat', async (req, res) => {
 // ==========================================
 // Adjust this path based on your folder structure!
 // If server.js is in M:\miniGPT\server, and the UI is in M:\miniGPT\client
-const distPath = path.join(__dirname, '..', 'client', 'dist'); 
+const distPath = path.join(__dirname, '..', 'dist'); 
 
 app.use(express.static(distPath));
 
