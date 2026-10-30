@@ -6,6 +6,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.send('MiniGPT Backend is Running!');
+});
+
 app.post('/api/chat', async (req, res) => {
     const message = req.body.message;
 
@@ -96,5 +100,5 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-const PORT = 5001;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
