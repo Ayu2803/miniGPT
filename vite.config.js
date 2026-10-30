@@ -6,5 +6,11 @@ export default defineConfig({
   plugins: [react()],
   define: {
     global: 'window', 
-  }
+  },
+  // 👇 ADD THIS BLOCK 👇
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5001',
+    },
+  },
 })
