@@ -5,6 +5,9 @@ import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.min.css' // Import the math styles
 import './App.css'
 
+// ✅ Computed once at module load. Empty string = same-origin (works in prod).
+const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '')
+
 function App() {
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
@@ -30,19 +33,18 @@ function App() {
     }
 
     setMessages((prev) => [
-      ...prev, 
+      ...prev,
       newMessage,
       { id: assistantMessageId, text: '', sender: 'assistant' }
     ])
-    
+
     setIsLoading(true)
 
     if (!customText) setInput('')
 
     try {
-     const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5001').replace(/\/$/, '')
-    console.log('Calling:', `${API_URL}/api/chat`)
-    const response = await fetch(`${API_URL}/api/chat`, {
+      console.log('Calling:', `${API_URL}/api/chat`)
+      const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,13 +53,15 @@ function App() {
           message: textToSend,
         }),
       })
-    if (!response.ok) {
-      const errorText = await response.text()
 
-      throw new Error(
-        errorText || `Server error: ${response.status} ${response.statusText}`
-      )
-    }
+      if (!response.ok) {
+        const errorText = await response.text()
+
+        throw new Error(
+          errorText || `Server error: ${response.status} ${response.statusText}`
+        )
+      }
+
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
       let done = false
@@ -67,10 +71,10 @@ function App() {
       while (!done) {
         const { value, done: readerDone } = await reader.read()
         done = readerDone
-        
+
         if (value) {
           buffer += decoder.decode(value, { stream: true })
-          
+
           const lines = buffer.split('\n')
           buffer = lines.pop()
 
@@ -88,10 +92,10 @@ function App() {
               const parsed = JSON.parse(dataStr)
               if (parsed.text) {
                 accumulatedText += parsed.text
-                setMessages((prev) => 
-                  prev.map((msg) => 
-                    msg.id === assistantMessageId 
-                      ? { ...msg, text: accumulatedText } 
+                setMessages((prev) =>
+                  prev.map((msg) =>
+                    msg.id === assistantMessageId
+                      ? { ...msg, text: accumulatedText }
                       : msg
                   )
                 )
@@ -103,10 +107,10 @@ function App() {
 
     } catch (error) {
       console.error('Chat Error:', error)
-      setMessages((prev) => 
-        prev.map((msg) => 
-          msg.id === assistantMessageId 
-            ? { ...msg, text: error.message } 
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === assistantMessageId
+            ? { ...msg, text: error.message }
             : msg
         )
       )
@@ -186,11 +190,11 @@ function App() {
                   {message.sender === 'assistant' ? '🤖' : '👤'}
                 </div>
                 <div className={`message ${message.sender}`}>
-                  
+
                   {/* Render Markdown and Math */}
                   {message.text ? (
-                    <Markdown 
-                      remarkPlugins={[remarkMath]} 
+                    <Markdown
+                      remarkPlugins={[remarkMath]}
                       rehypePlugins={[rehypeKatex]}
                     >
                       {message.text}
@@ -198,7 +202,7 @@ function App() {
                   ) : message.sender === 'assistant' && isLoading ? (
                     <span className="typing-indicator">Thinking...</span>
                   ) : null}
-                  
+
                 </div>
               </div>
             ))
