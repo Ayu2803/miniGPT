@@ -1,16 +1,126 @@
-# React + Vite
+# ✨ MiniGPT – AI Chatbot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern AI chatbot powered by Google's Gemini API. Built with React, Vite, Node.js and Express, MiniGPT delivers real-time streaming responses with Markdown and mathematical expression rendering.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* AI-powered conversations using Google Gemini.
+* Real-time streaming responses using Server-Sent Events (SSE).
+* Markdown rendering for formatted AI responses.
+* Mathematical equation rendering using KaTeX.
+* Modern dark-themed user interface.
+* Suggested prompts for quick conversations.
+* Loading indicators during AI generation.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Frontend**
 
-## Expanding the ESLint configuration
+* React
+* Vite
+* CSS
+* React Markdown
+* Remark Math
+* Rehype KaTeX
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Backend**
+
+* Node.js
+* Express.js
+* Google Gemini API
+* Server-Sent Events (SSE)
+
+## 📁 Project Structure
+
+```
+MiniGPT/
+├── public/
+├── server/
+│   ├── server.js
+│   ├── package.json
+│   └── .env
+├── src/
+│   ├── assets/
+│   ├── App.jsx
+│   ├── App.css
+│   ├── index.css
+│   └── main.jsx
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md
+```
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the repository
+
+```
+git clone https://github.com/Ayu2803/miniGPT.git
+cd miniGPT
+```
+
+### 2. Install frontend dependencies
+
+```
+npm install
+```
+
+### 3. Install backend dependencies
+
+```
+cd server
+npm install
+```
+
+### 4. Configure environment variables
+
+Create a `.env` file inside the `server` directory.
+
+Add your Gemini API key:
+
+```
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+Never upload your API key to GitHub.
+
+### 5. Start the backend
+
+From the server directory:
+
+```
+node server.js
+```
+
+Backend runs at `http://localhost:5001`.
+
+### 6. Start the frontend
+
+Open another terminal in the project root:
+
+```
+npm run dev
+```
+
+Frontend runs at `http://localhost:5173`.
+
+## 🔮 Future Improvements
+
+* User authentication
+* Persistent conversation history
+* MongoDB integration
+* Multiple AI model support
+* PDF upload and analysis
+* Image understanding
+* Code syntax highlighting
+
+## 👩‍💻 Developer
+
+**Ayushi Pandey**
+
+GitHub: [@Ayu2803](https://github.com/Ayu2803)
+
+---
+
+⭐ If you like this project, consider giving it a star!
